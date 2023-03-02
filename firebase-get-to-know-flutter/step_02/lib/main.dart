@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'home_page.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   runApp(const App());
 }
@@ -18,6 +20,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Firebase Meetup',
+      navigatorKey: navigatorKey,
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
               highlightColor: Colors.deepPurple,

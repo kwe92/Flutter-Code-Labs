@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "27685937144",
+    "project_id": "fir-refresher-70ff5",
+    "storage_bucket": "fir-refresher-70ff5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27685937144:android:c42ceedf12d256418cc00d",
+        "android_client_info": {
+          "package_name": "com.example.gtk_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27685937144-344kmkeeahfia5vgh5ege9sjoj8auplq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC054ztE_pMmgxIIeXXQz6HMFyW5UcLbBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27685937144-344kmkeeahfia5vgh5ege9sjoj8auplq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "27685937144-srkgkdrooi2rdo2cgf0tu04hqlb9jqdr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gtkFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
