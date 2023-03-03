@@ -23,21 +23,23 @@ class App extends StatelessWidget {
   build(BuildContext context) {
     return MaterialApp.router(
       title: 'Firebase Meetup',
-      theme: ThemeData(
-        buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
-            ),
-        primarySwatch: Colors.deepPurple,
-        textTheme: GoogleFonts.robotoTextTheme(
-          Theme.of(context).textTheme,
-        ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        useMaterial3: true,
-      ),
+      theme: _theme(context),
       routerConfig: _router,
     );
   }
 }
+
+ThemeData _theme(BuildContext context) => ThemeData(
+      buttonTheme: Theme.of(context).buttonTheme.copyWith(
+            highlightColor: Colors.deepPurple,
+          ),
+      primarySwatch: Colors.deepPurple,
+      textTheme: GoogleFonts.robotoTextTheme(
+        Theme.of(context).textTheme,
+      ),
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+      useMaterial3: true,
+    );
 
 final _router = GoRouter(routes: <RouteBase>[
   GoRoute(path: '/', builder: _homePageCallback, routes: [
@@ -53,32 +55,29 @@ Widget _homePageCallback(BuildContext context, GoRouterState? state) =>
 
 Widget _signInScreenCallback(BuildContext context, GoRouterState state) =>
 // TODO: Wrap the Firebase UI Components with a Scafforld / AppBar for route poping
-    Scaffold(
-      appBar: AppBar(
-        title: const Text('Firebase Demo'),
-      ),
-      body: SignInScreen(
-        actions: [
-          ForgotPasswordAction((context, email) {
-            final uri = Uri(
-              path: '/sign-in/forgot-password',
-              queryParameters: <String, String?>{
-                'email': email,
-              },
-            );
-            context.push(uri.toString());
-          }),
-          AuthStateChangeAction(_authStateCallback)
-        ],
-      ),
-    );
+    customScaffold(
+        child: SignInScreen(
+      actions: [
+        ForgotPasswordAction((context, email) {
+          final uri = Uri(
+            path: '/sign-in/forgot-password',
+            queryParameters: <String, String?>{
+              'email': email,
+            },
+          );
+          context.push(uri.toString());
+        }),
+        AuthStateChangeAction(_authStateCallback)
+      ],
+    ));
 
 Widget _forgotPasswordCallback(BuildContext context, GoRouterState state) {
   final arugments = state.queryParams;
-  return ForgotPasswordScreen(
+  return customScaffold(
+      child: ForgotPasswordScreen(
     email: arugments['email'],
     headerMaxExtent: 200,
-  );
+  ));
 }
 
 Widget _profileCallback(BuildContext context, GoRouterState state) =>
@@ -114,3 +113,9 @@ void _authStateCallback(BuildContext context, AuthState state) {
     context.pushReplacement('/');
   }
 }
+
+Widget customScaffold({required Widget child}) => Scaffold(
+    appBar: AppBar(
+      title: const Text('Firebase Demo'),
+    ),
+    body: child);
