@@ -7,13 +7,9 @@ import 'package:provider/provider.dart';
 import 'home_page.dart';
 import 'state/app_state.dart';
 
-// final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  ChangeNotifier appStateCallback(BuildContext context) => ApplicationState();
-  Widget appCallback(BuildContext context, Widget? child) => const App();
   runApp(ChangeNotifierProvider(
     create: (context) => ApplicationState(),
     builder: (context, child) => const App(),
@@ -27,7 +23,6 @@ class App extends StatelessWidget {
   build(BuildContext context) {
     return MaterialApp.router(
       title: 'Firebase Meetup',
-      // navigatorKey: navigatorKey,
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
               highlightColor: Colors.deepPurple,
@@ -39,7 +34,6 @@ class App extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         useMaterial3: true,
       ),
-      // home: const HomePage(),
       routerConfig: _router,
     );
   }
@@ -58,19 +52,25 @@ Widget _homePageCallback(BuildContext context, GoRouterState? state) =>
     const HomePage();
 
 Widget _signInScreenCallback(BuildContext context, GoRouterState state) =>
-    SignInScreen(
-      actions: [
-        ForgotPasswordAction((context, email) {
-          final uri = Uri(
-            path: '/sign-in/forgot-password',
-            queryParameters: <String, String?>{
-              'email': email,
-            },
-          );
-          context.push(uri.toString());
-        }),
-        AuthStateChangeAction(_authStateCallback)
-      ],
+// TODO: Wrap the Firebase UI Components with a Scafforld / AppBar for route poping
+    Scaffold(
+      appBar: AppBar(
+        title: const Text('Firebase Demo'),
+      ),
+      body: SignInScreen(
+        actions: [
+          ForgotPasswordAction((context, email) {
+            final uri = Uri(
+              path: '/sign-in/forgot-password',
+              queryParameters: <String, String?>{
+                'email': email,
+              },
+            );
+            context.push(uri.toString());
+          }),
+          AuthStateChangeAction(_authStateCallback)
+        ],
+      ),
     );
 
 Widget _forgotPasswordCallback(BuildContext context, GoRouterState state) {
