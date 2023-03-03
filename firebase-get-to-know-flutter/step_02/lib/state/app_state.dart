@@ -10,8 +10,22 @@ class ApplicationState extends ChangeNotifier {
   get loggedIn => _loggedIn;
 
   ApplicationState() {
-    init();
+    _init();
+  }
+
+  Future<void> _init() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
+
+    FirebaseAuth.instance.userChanges().listen((user) {
+      if (user != null) {
+        _loggedIn = true;
+      } else {
+        _loggedIn = false;
+      }
+      notifyListeners();
+    });
   }
 }
-
-Future<void> init() async {}

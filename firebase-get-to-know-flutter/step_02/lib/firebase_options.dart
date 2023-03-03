@@ -54,11 +54,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCKELuZYx31Hx8tOAdF5r7M9CAx4V9ZP1c',
-    appId: '1:27685937144:ios:b9f8960209d898138cc00d',
+    appId: '1:27685937144:ios:004ef5785a4d346a8cc00d',
     messagingSenderId: '27685937144',
     projectId: 'fir-refresher-70ff5',
     storageBucket: 'fir-refresher-70ff5.appspot.com',
-    iosClientId: '27685937144-srkgkdrooi2rdo2cgf0tu04hqlb9jqdr.apps.googleusercontent.com',
-    iosBundleId: 'com.example.gtkFlutter',
+    iosClientId: '27685937144-c82j75p0pkvjpbvk85pm6dofdb7tu20f.apps.googleusercontent.com',
+    iosBundleId: 'com.example.gtkFlutter1101',
   );
 }

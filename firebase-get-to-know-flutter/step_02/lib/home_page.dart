@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-
 import 'src/widgets.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

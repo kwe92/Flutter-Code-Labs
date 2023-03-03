@@ -1,16 +1,23 @@
 // Copyright 2022 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:provider/provider.dart';
 import 'home_page.dart';
+import 'state/app_state.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
-  runApp(const App());
+  ChangeNotifier? appStateCallback(BuildContext context) => ApplicationState();
+  Widget appCallback(BuildContext context, Widget? child) => const App();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(ChangeNotifierProvider(
+    create: appStateCallback,
+    builder: appCallback,
+  ));
 }
 
 class App extends StatelessWidget {
