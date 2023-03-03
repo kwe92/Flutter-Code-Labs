@@ -7,7 +7,7 @@ import '../firebase_options.dart';
 
 class ApplicationState extends ChangeNotifier {
   bool _loggedIn = false;
-  get loggedIn => _loggedIn;
+  bool get loggedIn => _loggedIn;
 
   ApplicationState() {
     _init();
