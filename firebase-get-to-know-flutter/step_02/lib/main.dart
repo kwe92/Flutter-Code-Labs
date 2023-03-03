@@ -1,7 +1,9 @@
 // Copyright 2022 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page.dart';
@@ -19,6 +21,31 @@ void main() {
     builder: appCallback,
   ));
 }
+
+Widget _homePageCallback(BuildContext context, GoRouterState? state) =>
+    const HomePage();
+
+final _router = GoRouter(routes: <RouteBase>[
+  GoRoute(path: '/', builder: _homePageCallback, routes: [
+    GoRoute(
+        path: 'sign-in',
+        builder: (context, state) {
+          return SignInScreen(
+            actions: [
+              ForgotPasswordAction((context, email) {
+                final uri = Uri(
+                  path: '/sign-in/forgot-password',
+                  queryParameters: <String, String?>{
+                    'email': email,
+                  },
+                );
+                context.push(uri.toString());
+              })
+            ],
+          );
+        })
+  ])
+]);
 
 class App extends StatelessWidget {
   const App({super.key});
