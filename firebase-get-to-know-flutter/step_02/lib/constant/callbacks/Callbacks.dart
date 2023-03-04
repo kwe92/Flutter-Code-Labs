@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../ui/home_page.dart';
 
 class GoRouterCallbacks {
+  const GoRouterCallbacks();
   static Widget homePageCallback(BuildContext context, GoRouterState? state) =>
       const HomePage();
 
@@ -36,18 +37,20 @@ class GoRouterCallbacks {
   }
 
   static Widget profileCallback(BuildContext context, GoRouterState state) =>
-      ProfileScreen(
+      _customScaffold(
+          child: ProfileScreen(
         providers: const [],
         actions: [
           SignedOutAction((context) {
             context.pushReplacement('/');
           })
         ],
-      );
+      ));
 
   static void authStateCallback(BuildContext context, AuthState state) {
     if (state is SignedIn || state is UserCreated) {
-      var user = (state is SignedIn)
+      // TODO: MAybe needs to be changed back to var?
+      final user = (state is SignedIn)
           ? state.user
           : (state as UserCreated).credential.user;
       if (user == null) {
