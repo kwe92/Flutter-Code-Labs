@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import '../callbacks/callbacks.dart';
 
 class AppRouter {
+  const AppRouter();
   static final router = GoRouter(routes: <RouteBase>[
     GoRoute(path: '/', builder: GoRouterCallbacks.homePageCallback, routes: [
       GoRoute(
