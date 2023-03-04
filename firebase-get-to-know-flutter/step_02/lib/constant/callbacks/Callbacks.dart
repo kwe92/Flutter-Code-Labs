@@ -1,7 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../home_page.dart';
+import '../../ui/home_page.dart';
 
 class GoRouterCallbacks {
   static Widget homePageCallback(BuildContext context, GoRouterState? state) =>
