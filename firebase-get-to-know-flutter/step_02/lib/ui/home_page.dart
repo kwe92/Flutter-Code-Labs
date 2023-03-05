@@ -39,19 +39,16 @@ class _CustomListView extends StatelessWidget {
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
-            builder: (context, appState, _) => AuthFunc(
-                loggedIn: appState.loggedIn,
-                signOut: () {
-                  FirebaseAuth.instance.signOut();
-                }),
+            builder: _handleAuth,
           ),
           const _CustomDivider(),
           const Header("What we'll be doing"),
           const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
-          const Header('Discussion'),
-          const GuestBook(addMessage: _handleMessageCallback)
+          Consumer<ApplicationState>(
+            builder: _handleAddMessage,
+          ),
         ],
       );
 }
@@ -70,3 +67,25 @@ class _CustomDivider extends StatelessWidget {
         color: Colors.grey,
       );
 }
+
+Widget _handleAuth(
+        BuildContext context, ApplicationState appState, Widget? _) =>
+    AuthFunc(
+        loggedIn: appState.loggedIn,
+        signOut: () {
+          FirebaseAuth.instance.signOut();
+        });
+
+Widget _handleAddMessage(
+        BuildContext context, ApplicationState appState, Widget? _) =>
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (appState.loggedIn) ...[
+          const Header('Discussion'),
+          GuestBook(
+            addMessage: (message) => appState.addMessageToGuestBook(message),
+          ),
+        ],
+      ],
+    );
