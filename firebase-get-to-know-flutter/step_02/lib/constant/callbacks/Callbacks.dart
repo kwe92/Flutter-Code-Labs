@@ -49,7 +49,6 @@ class GoRouterCallbacks {
 
   static void authStateCallback(BuildContext context, AuthState state) {
     if (state is SignedIn || state is UserCreated) {
-      // TODO: MAybe needs to be changed back to var?
       final user = (state is SignedIn)
           ? state.user
           : (state as UserCreated).credential.user;
