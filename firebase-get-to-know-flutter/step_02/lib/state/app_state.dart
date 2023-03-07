@@ -9,7 +9,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import '../constant/models/guest_book_message.dart';
 import '../firebase_options.dart';
-import '../ui/guest_book.dart';
+import '../ui/guest_book/guest_book.dart';
 
 class ApplicationState extends ChangeNotifier {
   bool _loggedIn = false;
@@ -30,63 +30,58 @@ class ApplicationState extends ChangeNotifier {
 
     FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
 
-    FirebaseAuth.instance.userChanges().listen(
-      (user) {
-        user != null ? _loggedIn = true : _loggedIn = false;
-
-        if (user != null) {
-          _loggedIn = true;
-          _guestBookSubscription = FirebaseFirestore.instance
-              .collection('guestbook')
-              .orderBy('timestamp', descending: true)
-              .snapshots()
-              .listen((snapshot) {
-            _guestBookMessages = [];
-            for (final document in snapshot.docs) {
-              _guestBookMessages.add(
-                GuestBookMessage(
-                    id: document.data()['userid'] as String,
-                    name: document.data()['name'] as String,
-                    message: document.data()['text'] as String),
-              );
-            }
-            notifyListeners();
-          });
-        } else {
-          _loggedIn = false;
-          _guestBookMessages = [];
-          _guestBookSubscription?.cancel();
-        }
-
-        notifyListeners();
-      },
-    );
+    FirebaseAuth.instance.userChanges().listen(_getMessagesListenerCallback);
   }
 
-  Future? addMessageToGuestBook(String message) => !_loggedIn
-      ? throw Exception('Must be logged in.')
-      : FirebaseFirestore.instance.collection('guestbook').add(
-          <String, Object>{
-            'text': message,
-            'timestamp': DateTime.now().millisecondsSinceEpoch,
-            'name': FirebaseAuth.instance.currentUser!.displayName as Object,
-            'userid': FirebaseAuth.instance.currentUser!.uid,
-          },
-        );
+  void addMessageToGuestBook(String message) {
+    if (!_loggedIn) {
+      throw Exception('Must be logged in.');
+    } else {
+      final CollectionReference colRef =
+          FirebaseFirestore.instance.collection('guestbook');
+      final User user = FirebaseAuth.instance.currentUser as User;
+      final String textID = colRef.doc().id;
+      final Map<String, Object> textObject = GuestBookMessage(
+              textID: textID,
+              userID: user.uid,
+              name: user.displayName as String,
+              message: message)
+          .toJSON();
 
-  // TODO: Refactor?
-  // Future? addMessageToGuestBook(String message) {
-  //   if (!_loggedIn) {
-  //     throw Exception('Must be logged in.');
-  //   } else {
-  //     FirebaseFirestore.instance.collection('guestbook').add();
-  //   }
-  // }
+      colRef.doc(textID).set(textObject);
+    }
+  }
+
+  void _getMessagesListenerCallback(User? user) {
+    user != null ? _loggedIn = true : _loggedIn = false;
+
+    if (user != null) {
+      _loggedIn = true;
+      _guestBookSubscription = FirebaseFirestore.instance
+          .collection('guestbook')
+          .orderBy('timestamp', descending: true)
+          .snapshots()
+          .listen(_guestBookListenerCallback);
+    } else {
+      _loggedIn = false;
+      _guestBookMessages = [];
+      _guestBookSubscription?.cancel();
+    }
+
+    notifyListeners();
+  }
+
+  void _guestBookListenerCallback(QuerySnapshot<Map> snapshot) {
+    _guestBookMessages = [];
+    for (final document in snapshot.docs) {
+      _guestBookMessages.add(
+        GuestBookMessage(
+            textID: document.data()['textID'] as String,
+            userID: document.data()['userid'] as String,
+            name: document.data()['name'] as String,
+            message: document.data()['text'] as String),
+      );
+    }
+    notifyListeners();
+  }
 }
-
-// <String, Object>{
-//         'text': message,
-//         'timestamp': DateTime.now().millisecondsSinceEpoch,
-//         'name': FirebaseAuth.instance.currentUser!.displayName as Object,
-//         'userid': FirebaseAuth.instance.currentUser!.uid,
-//       }
