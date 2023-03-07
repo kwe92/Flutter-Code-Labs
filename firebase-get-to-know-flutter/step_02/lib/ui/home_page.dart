@@ -85,6 +85,7 @@ Widget _handleAddMessage(
           const Header('Discussion'),
           GuestBook(
             addMessage: (message) => appState.addMessageToGuestBook(message),
+            messages: appState.guestBookMessages,
           ),
         ],
       ],
