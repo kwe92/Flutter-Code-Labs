@@ -12,7 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart' // new
 import 'package:provider/provider.dart';
 import '../state/app_state.dart';
 import 'authentication.dart';
-import 'guest_book.dart';
+import 'guest_book/guest_book.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
