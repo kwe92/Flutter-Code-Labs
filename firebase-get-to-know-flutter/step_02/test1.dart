@@ -1,7 +1,13 @@
 int main() {
-  final int num1;
-  num1 = 43;
-  print(num1);
-  print('Free, ' r'$400.00');
+  final String name;
+
+  name = 'kwe';
+
+  const List<Object> myList = [1, 2, 'Hello', <String, num>{}];
+
+  final List<num> myList2 = List<Object>.from(myList).whereType<num>().toList();
+  print(name);
+  print(myList2);
+
   return 0;
 }

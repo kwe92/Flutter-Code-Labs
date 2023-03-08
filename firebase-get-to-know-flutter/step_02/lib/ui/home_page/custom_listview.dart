@@ -20,7 +20,7 @@ class CustomListView extends StatelessWidget {
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
-            builder: _handleAuth,
+            builder: _handleAuthCallback,
           ),
           const _CustomDivider(),
           const Header("What we'll be doing"),
@@ -28,13 +28,13 @@ class CustomListView extends StatelessWidget {
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           Consumer<ApplicationState>(
-            builder: _handleAddMessage,
+            builder: _handleAddMessageCallback,
           ),
         ],
       );
 }
 
-Widget _handleAuth(
+Widget _handleAuthCallback(
         BuildContext context, ApplicationState appState, Widget? _) =>
     AuthFunc(
         loggedIn: appState.loggedIn,
@@ -42,7 +42,7 @@ Widget _handleAuth(
           FirebaseAuth.instance.signOut();
         });
 
-Widget _handleAddMessage(
+Widget _handleAddMessageCallback(
         BuildContext context, ApplicationState appState, Widget? _) =>
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
