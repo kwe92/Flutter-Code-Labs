@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
 import 'dart:async';
-import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
@@ -10,12 +9,17 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import '../constant/models/guest_book_message.dart';
 import '../firebase_options.dart';
+import 'dart:ui';
 
 // TODO: NOTES ON: Listener Callback | Listener callbacks must end by notifying the listeners??
 
-// TODO: Review worknig with ChangeNotifier and Listeners
+// TODO: Review working with ChangeNotifier and Listeners
+
+// TODO: Review: Subscribing to streams, unsubscribing to streams and listening to streaming data
 
 // TODO: Understand Provider package more and how state is distributed throughout your application
+
+// TODO: What does it mean to have a subscribed a query? | is subscribing to a stream querying a stream | What are diffrent query subscription types?
 
 enum Attending { yes, no, unknown }
 
@@ -105,6 +109,7 @@ class ApplicationState extends ChangeNotifier {
       _loggedIn = false;
       _guestBookMessages = [];
       _guestBookSubscription?.cancel();
+      _attendingSubscription?.cancel();
     }
 
     notifyListeners();
