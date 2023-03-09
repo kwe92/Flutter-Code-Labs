@@ -52,7 +52,6 @@ Widget _gestureDetector(_Props2 props) => GestureDetector(
               context: props.context,
               path: 'guestbook',
               id: props.message.textID));
-          // context: context, path: 'guestbook', id: message.textID
         }
       },
     );
