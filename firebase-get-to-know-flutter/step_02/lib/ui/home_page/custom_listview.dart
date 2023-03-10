@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../state/app_state.dart';
 import '../authentication/authentication.dart';
 import '../guest_book/guest_book.dart';
+import 'yes_no_section.dart';
 
 class CustomListView extends StatelessWidget {
   const CustomListView({super.key});
@@ -46,8 +47,22 @@ Widget _handleAddMessageCallback(
         BuildContext context, ApplicationState appState, Widget? _) =>
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children:
+          // Dynamic Collections
+          //   - Conditional Logic (At any element)
+          //   - Destructuring + Conditional Logic
+
+          [
+        if (appState.attendees >= 2)
+          Paragraph('${appState.attendees} people going.')
+        else if (appState.attendees == 1)
+          const Paragraph('1 person going.')
+        else
+          const Paragraph('no one going.'),
         if (appState.loggedIn) ...[
+          YesNoSection(
+              state: appState.attending,
+              onSelection: (attending) => appState.attending = attending),
           const Header('Discussion'),
           GuestBook(
             addMessage: (message) => appState.addMessageToGuestBook(message),
