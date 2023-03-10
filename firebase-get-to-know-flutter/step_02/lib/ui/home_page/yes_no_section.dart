@@ -13,18 +13,18 @@ class YesNoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttons = YesNoButtons(onSelection: onSelection);
-
+    const _padding = EdgeInsets.all(8);
     final Padding yes = Padding(
-      padding: const EdgeInsets.all(8),
+      padding: _padding,
       child: Row(children: buttons.yesButtons()),
     );
     final Padding no = Padding(
-      padding: const EdgeInsets.all(8),
+      padding: _padding,
       child: Row(children: buttons.noButtons()),
     );
 
     final Padding def = Padding(
-      padding: const EdgeInsets.all(8),
+      padding: _padding,
       child: Row(children: buttons.defaultButtons()),
     );
 
